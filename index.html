@@ -684,11 +684,126 @@
     .accordion-item.active .accordion-body {
       display: block;
     } 
+
+        /* Thanksgiving sale ticker – Luxury Tint & Wrap */
+.ticker {
+  --ticker-bg: #14151a;      /* deep black */
+  --ticker-text: #f4efe6;    /* soft white */
+  --ticker-accent: #c9a24b;  /* gold */
+  --ticker-pill-text: #14151a;
+  --ticker-speed: 28s;       /* lower = faster */
+
+  width: 100%;
+  overflow: hidden;
+  background: var(--ticker-bg);
+  color: var(--ticker-text);
+  font-family: "Fredoka", "Trebuchet MS", system-ui, sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1;
+  border-bottom: 3px solid var(--ticker-accent);
+}
+
+.ticker__track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll var(--ticker-speed) linear infinite;
+}
+
+/* Pause on hover or keyboard focus so people can read and click */
+.ticker:hover .ticker__track,
+.ticker:focus-within .ticker__track {
+  animation-play-state: paused;
+}
+
+.ticker__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 2.5rem;
+  padding: 0.8rem 1.25rem 0.8rem 0;
+  margin: 0;
+  list-style: none;
+}
+
+.ticker__item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  white-space: nowrap;
+}
+
+.ticker__pill {
+  background: var(--ticker-accent);
+  color: var(--ticker-pill-text);
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+}
+
+.ticker__link {
+  color: var(--ticker-accent);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.ticker__link:focus-visible {
+  outline: 2px solid var(--ticker-text);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); } /* two identical groups = seamless loop */
+}
+
+/* Respect reduced-motion: stop scrolling, let the message wrap and stay readable */
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track {
+    animation: none;
+    width: 100%;
+  }
+  .ticker__group[aria-hidden="true"] {
+    display: none;
+  }
+  .ticker__group {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.8rem 1rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ticker { font-size: 0.9rem; }
+  .ticker__group { gap: 1.75rem; }
+}
     </style>
 </head>
 <body>
     <!-- Header -->
     <header id="header">
+        <div class="ticker" role="region" aria-label="Thanksgiving sale announcement">
+  <div class="ticker__track">
+
+    <ul class="ticker__group">
+      <li class="ticker__item">🍂 <span>Happy Thanksgiving from Luxury Tint &amp; Wrap</span></li>
+      <li class="ticker__item"><span class="ticker__pill">30–40% OFF</span> <span>window tinting &amp; vehicle wraps</span></li>
+      <li class="ticker__item">🦃 <span>Tint, wraps, paint protection &amp; ceramic coating</span></li>
+      <li class="ticker__item"><span>Book your appointment before Thanksgiving</span> <a class="ticker__link" href="#contact">Book appointment</a></li>
+    </ul>
+
+    <!-- Duplicate for a seamless loop (hidden from screen readers) -->
+    <ul class="ticker__group" aria-hidden="true">
+      <li class="ticker__item">🍂 <span>Happy Thanksgiving from Luxury Tint &amp; Wrap</span></li>
+      <li class="ticker__item"><span class="ticker__pill">30–40% OFF</span> <span>window tinting &amp; vehicle wraps</span></li>
+      <li class="ticker__item">🦃 <span>Tint, wraps, paint protection &amp; ceramic coating</span></li>
+      <li class="ticker__item"><span>Book your appointment before Thanksgiving</span> <a class="ticker__link" href="#contact" tabindex="-1">Book appointment</a></li>
+    </ul>
+
+  </div>
+</div>
         <div class="container header-container">
             <a href="#" class="logo">Luxury <span>Tint</span> & Wrap</a>
             <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
